@@ -96,7 +96,8 @@ function generate_booked()
          {
              sel_seats=sel_seats+1;
              seats[i][j]=1;
-         }			}
+         }
+     }
    }
    return seats;
 }
@@ -138,44 +139,39 @@ else
 
 
 
-<div class="row hidden" id="orderrow">
-    <div class="col-md-3">
+<div class="hidden" id="orderrow">
 
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div id="movielist" class="form-group">
+            </div>
+            <div class="form-group">
+              <input type="text" id="nstext" class="form-control text-center" value="1">
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
     </div>
-    <div class="col-md-6">
-        <div id="movielist" class="form-group">
+    <div class="row">
+        <div class="col-md-3">
 
         </div>
-        <div class="form-group">
-          <input type="text" id="nstext" class="form-control text-center" value="1">
+        <div class="col-md-6">
+            <div id="seata"> </div>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Payment</button>
         </div>
     </div>
-    <div class="col-md-3">
 
-    </div>
 </div>
-
-<div class="row">
-    <div class="col-md-3">
-
-    </div>
-    <div class="col-md-6">
-        <div id="seata"> </div>
-    </div>
-    <div class="col-md-3">
-
-    </div>
-</div>
-
-
- <div id="seatb"> </div>
 
 
  <div class="row">
 
        <!--<button type="button" onclick="generate_table()" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Seats</button>-->
-
-       <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
 
    <!-- Modal -->
@@ -185,7 +181,7 @@ else
        <!-- Modal content-->
        <div class="modal-content">
          <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <button type="button" id="closemodal" class="close" data-dismiss="modal">&times;</button>
            <h4 class="modal-title">Payment Window</h4>
          </div>
          <div class="modal-body">
@@ -209,14 +205,13 @@ else
                      <input required type="date" class="form-control" id="expdate" placeholder="2010-01-01">
                  </div>
 
-
-
-                   <button id="formBtn" class="btn btn-primary" type="submit" name="button">Create New Account</button>
+                   <button id="formBtn" class="btn btn-primary" type="submit" name="button">Pay</button>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   </div>
              </form>
          </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-         </div>
+
        </div>
      </div>
    </div>
@@ -226,7 +221,7 @@ else
  <script type="text/javascript">
 
  $(document).on('change', '#screentimes', function() {
-     var scrpk = this.value;
+     scrpk = this.value;
      console.log("onchange");
 
      $.ajax({
@@ -312,6 +307,10 @@ function generate_table(seats)
      );
      console.log(datas);
  });
+ //
+ // $(document).on('click','#formBtn', function(){
+ // });
+
  jQuery(document).ready(function($) {
          var form = $('#myform');
          form.submit(function(e){
@@ -320,22 +319,35 @@ function generate_table(seats)
              var cardnum = $("#cardnum").val();
              var startdate = $("#startdate").val();
              var expdate = $("#expdate").val();
+             var userseat = seats;
+             sendseats = generate_booked();
+             var total = sel_seats;
+             var screening_id = '';
+
              var token = $("input[name~='csrfmiddlewaretoken']").first().val();
              $.ajax({
                  type: 'POST',
                  url: '/payment/pay/',
                  data: {
+                     'screening_id': scrpk,
                      'csrfmiddlewaretoken': token,
                      'email': email,
                      'cardnum': cardnum,
                      'startdate': startdate,
                      'expdate': expdate,
+                     'seats': JSON.stringify(sendseats),
+                     'userseats': JSON.stringify(userseat),
+                     'total_seats': total,
+
                  },
                  dataType: "json",
                  success: function(resultData) {
-                     alert("Save Complete")
+                     console.log('****resultData: ', resultData);
                  }
              });
+             $('#closemodal').click();
+             $('body').removeClass('modal-open');
+             location.reload();
          });
  });
  </script>

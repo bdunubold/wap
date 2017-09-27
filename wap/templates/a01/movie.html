@@ -78,6 +78,8 @@
                 url: '/screening/movie/'+movieID+'/',
                 success: function (data){
                     var html = '<select id="screentimes" class="form-control">';
+
+                    html += '<option value="">select time</option>';
                     for (var x = 0; x < data.length; x++) {
                         html += '<option value="' + data[x].pk + '">' + data[x].fields.stime + '</option>';
                     }
