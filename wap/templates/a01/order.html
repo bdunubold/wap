@@ -35,6 +35,7 @@ function generate_table1(seats)
 
   // get the reference for the body
   //<!--var body = document.getElementsByTagName("body")[0];
+
   document.getElementById("btn").disabled = true;
   // creates a <table> element and a <tbody> element
 
@@ -47,6 +48,10 @@ function generate_table1(seats)
   for (var i = 0; i < seats.length; i++) {
     // creates a table row
     var row = document.createElement("tr");
+    var image0 = document.createElement('img');
+    image0.src=aseat[i];
+     var cell0 = document.createElement("td");
+     cell0.appendChild(image0);
 
     for (var j = 0; j < seats[i].length; j++) {
       // Create a <td> element and a text node, make the text
@@ -56,6 +61,7 @@ function generate_table1(seats)
       var cellText = document.createTextNode("cell");
 
 	  var image = document.createElement('img');
+
 	  if (seats[i][j]==0)
           {image.src = "../static/images/free.jpg";}
 	  else
@@ -73,6 +79,7 @@ function generate_table1(seats)
     }
 
     // add the row to the end of the table body
+    tblBody.appendChild(image0);
     tblBody.appendChild(row);
 	}
 
@@ -161,8 +168,8 @@ else
         <div class="col-md-6">
             <div id="seata"> </div>
         </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Payment</button>
+        <div class="col-md-6">
+            <button type="button" id="pmt" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Payment</button>
         </div>
     </div>
 
@@ -205,8 +212,10 @@ else
                      <input required type="date" class="form-control" id="expdate" placeholder="2010-01-01">
                  </div>
 
-                   <button id="formBtn" class="btn btn-primary" type="submit" name="button">Pay</button>
+
                    <div class="modal-footer">
+                       <button type="button" id="formBtn" class="btn btn-primary"  name="button" data-dismiss="modal">Pay</button>
+                        <!--  <button id="formBtn" class="btn btn-primary" type="submit" name="button">Pay</button>-->
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                    </div>
              </form>
@@ -256,6 +265,28 @@ convert = function(data){
 
 function generate_table(seats)
 {
+    var aseat=[];
+  aseat[0]="../static/images/A.jpg";
+  aseat[1]="../static/images/B.jpg";
+  aseat[2]="../static/images/C.jpg";
+  aseat[3]="../static/images/D.jpg";
+  aseat[4]="../static/images/E.jpg";
+  aseat[5]="../static/images/F.jpg";
+  aseat[6]="../static/images/G.jpg";
+  aseat[7]="../static/images/H.jpg";
+  aseat[8]="../static/images/I.jpg";
+  aseat[9]="../static/images/J.jpg";
+  aseat[10]="../static/images/K.jpg";
+  aseat[11]="../static/images/L.jpg";
+  aseat[12]="../static/images/M.jpg";
+  aseat[13]="../static/images/N.jpg";
+  aseat[14]="../static/images/O.jpg";
+  aseat[15]="../static/images/P.jpg";
+  aseat[16]="../static/images/Q.jpg";
+  aseat[17]="../static/images/R.jpg";
+  aseat[18]="../static/images/S.jpg";
+  aseat[19]="../static/images/T.jpg";
+ aseat[20]="../static/images/U.jpg";
 
     var tbl = document.createElement("table");
 	var tblBody = document.createElement("tbody");
@@ -266,7 +297,11 @@ function generate_table(seats)
   for (var i = 0; i < seats.length; i++) {
     // creates a table row
     var row = document.createElement("tr");
-
+     var image0 = document.createElement('img');
+    image0.src=aseat[i];
+     var cell0 = document.createElement("td");
+     cell0.appendChild(image0);
+     row.appendChild(cell0);
     for (var j = 0; j < seats[i].length; j++) {
       //document.write(seats[i][j]);
       var cell = document.createElement("td");
@@ -290,6 +325,7 @@ function generate_table(seats)
     }
 
     // add the row to the end of the table body
+
     tblBody.appendChild(row);
 	}
   tbl.appendChild(tblBody);
@@ -346,8 +382,6 @@ function generate_table(seats)
                  }
              });
              $('#closemodal').click();
-             $('body').removeClass('modal-open');
-             location.reload();
          });
  });
  </script>
