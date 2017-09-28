@@ -169,3 +169,10 @@ class ScreeningByMovieView(View):
         screens = Screening.objects.filter(movie=obj)
         json_data = serializers.serialize('json', screens)
         return HttpResponse(json_data, content_type='json')
+
+
+class LatestMoviesView(View):
+    def get(self, *args):
+        screens = Screening.objects.filter(sdate__month=9, sdate__year=2017)
+        json_data = serializers.serialize('json', screens)
+        return HttpResponse(json_data, content_type='json')
