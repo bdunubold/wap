@@ -19,6 +19,8 @@ from a01.views import PaymentListView
 
 from a01.views import PaymentPayView
 from a01.views import ScreeningByMovieView
+from a01.views import LatestMoviesView
+
 
 
 
@@ -42,5 +44,7 @@ urlpatterns = [
     url(r'^screening/movie/(?P<id>[0-9]+)/$', ScreeningByMovieView.as_view(), name='payment_pay'),
 
     url(r'^payment/pay/$', PaymentPayView.as_view(), name='payment_pay'),
+    url(r'^movie/latest/$', LatestMoviesView.as_view(), name='latest_movies'),
+
 
 ]

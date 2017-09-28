@@ -82,24 +82,6 @@ class ListView(View):
 
         return HttpResponse(json_data, content_type='json')
 
-    # def get(self, *args):
-    #     obj_list = self.get_class.objects.all()
-    #     datas = []
-    #     for i in obj_list:
-    #         data = {}
-    #         for k in i._meta.get_fields():
-    #             try:
-    #                 val = getattr(i, k.name)
-    #                 if isinstance(val, datetime.date) or isinstance(val, datetime.datetime) or isinstance(val, datetime.time):
-    #                     val = val.isoformat()
-    #                 elif isinstance(val, models.Model):
-    #                     val = val.__str__()
-    #             except:
-    #                 continue
-    #             data[k.name] = val
-    #         datas.append(data)
-    #     return HttpResponse(json.dumps(datas), content_type='json')
-
 
 class MovieListView(ListView):
     get_class = Movie
@@ -129,13 +111,30 @@ class TicketOrder(View):
 
 class PaymentPayView(View):
     def post(self, request):
-
-        customer_id = request.POST.get('customer_id')
+        screening_id = request.POST.get('screening_id')
         cardnum = request.POST.get('cardnum')
+        email = request.POST.get('email')
         startdate = request.POST.get('startdate')
         expdate = request.POST.get('expdate')
 
-        customer = get_object_or_404(Customer, pk=customer_id)
+        total_seats = request.POST.get('total_seats')
+        sendseats = request.POST.get('seats')
+        userseats = request.POST.get('userseats')
+
+        sendseats = json.loads(sendseats)
+        userseats = json.loads(userseats)
+
+        screen = get_object_or_404(Screening, pk=screening_id)
+        screen.totalcustomer += int(total_seats)
+        screen.seats = sendseats
+        screen.save()
+
+        customer = Customer()
+        customer.email = email
+        customer.screen = screen
+        customer.seats = int(total_seats)
+        customer.bseats = userseats
+        customer.save()
 
         payment = Payment()
         payment.customer = customer
@@ -144,8 +143,7 @@ class PaymentPayView(View):
         payment.expdate = expdate
         payment.save()
 
-
-        return HttpResponse(content_type="application/json", status_code=200)
+        return HttpResponse({'msg': 'Payment is completed'}, content_type='json')
 
 
 
@@ -169,5 +167,12 @@ class ScreeningByMovieView(View):
     def get(self, req, id):
         obj = get_object_or_404(Movie, pk=id)
         screens = Screening.objects.filter(movie=obj)
+        json_data = serializers.serialize('json', screens)
+        return HttpResponse(json_data, content_type='json')
+
+
+class LatestMoviesView(View):
+    def get(self, *args):
+        screens = Screening.objects.filter(sdate__month=9, sdate__year=2017)
         json_data = serializers.serialize('json', screens)
         return HttpResponse(json_data, content_type='json')

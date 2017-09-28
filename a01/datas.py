@@ -76,3 +76,7 @@ for i in range(len(customers)):
     payments.append(obj)
 
 Payment.objects.bulk_create(payments)
+
+
+
+seats = [[0 for x in range(20)] for y in range(20)]

@@ -1,37 +1,7 @@
 {% load static %}
 
 
-<style>
-
-section {
-  display: inline-flex;
-  flex-direction: row;
-  /*flex-wrap: wrap;*/
-
- }
- article{
-  padding: 10px;
-  margin: 10px;
-
- }
-
- .right
-
-{float:right}
-
-.left
-{float:left}
-
- .container {
-    padding-top: 40px;
-}
-.glyphicon-minus
-{
-
-	}
-</style>
 <meta charset="utf-8">
-<title>Book seats</title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -57,27 +27,19 @@ $(document).on('click', '.number-spinner button', function () {
 	btn.closest('.number-spinner').find('input').val(newVal);
 });
 
- var seats = [
-	[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   ];
-var sel_seats=0;
 
-function generate_table(x,y) {
+sel_seats=0;
+
+function generate_table1(seats)
+{
+
   // get the reference for the body
-  <!--var body = document.getElementsByTagName("body")[0];
+  //<!--var body = document.getElementsByTagName("body")[0];
   document.getElementById("btn").disabled = true;
   // creates a <table> element and a <tbody> element
 
     var tbl = document.createElement("table");
 	var tblBody = document.createElement("tbody");
-
-
 
   document.getElementById("seata").appendChild(tbl);
   // creating all cells
@@ -103,7 +65,8 @@ function generate_table(x,y) {
 
 	  image.onclick=function(){
 		  changeImage(this,image.id);
-		  }; <!--"javascript:changeImage(this)";
+		  };
+
       cell.appendChild(image);
 
       row.appendChild(cell);
@@ -113,45 +76,30 @@ function generate_table(x,y) {
     tblBody.appendChild(row);
 	}
 
-  // put the <tbody> in the <table>
-   if  (document.getElementById("btn").value=="Reset")
-  {
-	     //tblBody.removeChild(row);
-		 //tbl.removeChild(tblBody);
-		// generate_table(10,10);
 
-  }else{
-   		  tbl.appendChild(tblBody);
-	  }
   tbl.appendChild(tblBody);
   // appends <table> into <body>
-  <!--body.appendChild(tbl);
+
   // sets the border attribute of tbl to 2;
   tbl.setAttribute("border", "2");
-  document.getElementById("btn").value="Reset";
+  //document.getElementById("btn").value="Reset";
 }
 
 function generate_booked()
 {
 
- var ctext="["+"<br>";
    for (var i = 0; i < seats.length; i++) {
-	       ctext=ctext+"[";
-		    for (var j = 0; j < seats[i].length; j++)
-			{
+        for (var j = 0; j < seats[i].length; j++)
+        {
 
-			 if (seats[i][j]==2)
-             {
-                 sel_seats=sel_seats+1;
-                 seats[i][j]=1;
-             }
-             ctext=ctext+seats[i][j]+" ";
-			}
-			ctext=ctext+"]"+"<br>";
-	   }
-  ctext=ctext+"]";
-  document.write(ctext);
-  document.write(sel_seats);
+         if (seats[i][j]==2)
+         {
+             sel_seats=sel_seats+1;
+             seats[i][j]=1;
+         }
+     }
+   }
+   return seats;
 }
 
 function changeImage(x,imgId)
@@ -185,81 +133,221 @@ else
    }
   }
 }
-
 }
 //}
 </script>
 
 
-  <h3 ><span class="left">Movie Hall Seat Location</span><span class="right"></span>  </h3>
-<br/>
-<br>
 
+<div class="hidden" id="orderrow">
 
-  Top
-  </div>
- <section>
-  <article>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div id="movielist" class="form-group">
+            </div>
+            <div class="form-group">
+              <input type="text" id="nstext" class="form-control text-center" value="1">
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
 
+        </div>
+        <div class="col-md-6">
+            <div id="seata"> </div>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Payment</button>
+        </div>
+    </div>
 
-<div class="container" align="center">
-	<div class="row">
-		<div class="col-xs-3 col-xs-offset-3">
-			Number of Seats to Order
-			     <div class="input-group number-spinner">
-			  <span class="input-group-btn">
-			  <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-			  </span>
-			  <input type="text" id="nstext" class="form-control text-center" value="1">
-			  <span class="input-group-btn">
-					<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
-				</span>
-			</div>
-		</div>
-	</div>
 </div>
 
 
-  </article>
-  <article>
-  <table width="50px" height="40%" border="1" align="center">
-<tr>
-    <th>Your</th>
-    <th>Free</th>
-    <th>Booked</th>
-  </tr>
-<tr>
+ <div class="row">
 
-<td>
-<img id="seats"  src="../static/images/seat.jpg" alt="" style="width:40px;height:40px;"></img>
-</td>
-
-<td>
- <img id="seats"   src="../static/images/free.jpg" alt="" style="width:40px;height:40px;"></img>
-</td>
+       <!--<button type="button" onclick="generate_table()" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Seats</button>-->
 
 
-<td>
- <img id="seats"    src="../static/images/booked.jpg" alt="" style="width:40px;height:40px;"></img>
-</td>
-</tr>
+   <!-- Modal -->
+   <div class="modal fade" id="myModal" role="dialog">
+     <div class="modal-dialog">
 
-</table>
+       <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" id="closemodal" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title">Payment Window</h4>
+         </div>
+         <div class="modal-body">
+
+             <form id="myform" class="" action="">{% csrf_token %}
+                 <div class="form-group">
+                     <label for="email">Email</label>
+                     <input required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$" type="text" class="form-control" id="email" placeholder="name@example.com">
+                 </div>
+                 <div class="form-group">
+                     <label for="cardnum">Card Number</label>
+                     <input required type="text" class="form-control" id="cardnum" placeholder="1234-1234-1234-1234">
+                 </div>
+
+                 <div class="form-group">
+                     <label for="startdate">Start Date</label>
+                     <input required type="date" class="form-control" id="startdate" max="2050-12-31" placeholder="1999-09-11">
+                 </div>
+                 <div class="form-group">
+                     <label for="expdate">Expiration Date</label>
+                     <input required type="date" class="form-control" id="expdate" placeholder="2010-01-01">
+                 </div>
+
+                   <button id="formBtn" class="btn btn-primary" type="submit" name="button">Pay</button>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   </div>
+             </form>
+         </div>
+
+       </div>
+     </div>
+   </div>
+ </div>
 
 
+ <script type="text/javascript">
 
- <input type="button" id="btn" value="Book Seat" onclick="generate_table(10,20)">
- <div id="seata"> </div>
+ $(document).on('change', '#screentimes', function() {
+     scrpk = this.value;
+     console.log("onchange");
 
- <input type="button" id="btn" value="Booked Seat" onclick="generate_booked(10,20)">
- <div id="seatb"> </div>
+     $.ajax({
+         type: "GET",
+         dataType : 'json',
+         url: '/screening/'+scrpk+'/',
+         success: function (data){
+             screenData = data[0];
+             seats = convert(JSON.parse(screenData.fields.seats));
+             console.log(seats);
+             $('#seata').html('');
+             generate_table(seats);
+
+             //document.write("where");
+         },
+         failure: function() {alert("Error!");}
+     });
+ });
 
 
-  </article>
+convert = function(data){
+     returndata = [];
+    for (var i = 0; i < data.length; i++) {
+        mydata = data[i].replace(/["]/g, '');
+        mydata = mydata.replace('[', '');
+        mydata = mydata.replace(']', '');
+        ret = mydata.split(', ').map(Number);
+        returndata.push(ret);
+  	}
+    return returndata;
+ }
 
+function generate_table(seats)
+{
 
- </section>
- <!--<div class="two">
-  УИХ-ын гишүүн С.Жавхлан:
-Top5
-  </div>
+    var tbl = document.createElement("table");
+	var tblBody = document.createElement("tbody");
+
+  document.getElementById("seata").appendChild(tbl);
+  // creating all cells
+
+  for (var i = 0; i < seats.length; i++) {
+    // creates a table row
+    var row = document.createElement("tr");
+
+    for (var j = 0; j < seats[i].length; j++) {
+      //document.write(seats[i][j]);
+      var cell = document.createElement("td");
+      var cellText = document.createTextNode("cell");
+
+	  var image = document.createElement('img');
+	  if (seats[i][j]==0)
+          {image.src = "../static/images/free.jpg";}
+	  else
+	      {image.src = "../static/images/booked.jpg";}
+
+	  image.id="s"+i+","+j;
+
+	  image.onclick=function(){
+		  changeImage(this,image.id);
+		  };
+
+      cell.appendChild(image);
+
+      row.appendChild(cell);
+    }
+
+    // add the row to the end of the table body
+    tblBody.appendChild(row);
+	}
+  tbl.appendChild(tblBody);
+
+  tbl.setAttribute("border", "2");
+  //document.getElementById("btn").value="Reset";
+}
+
+ $(document).on('click','.mybuttons', function(){
+     var hall = $(this).attr('hall');
+     var sdate = $(this).attr('sdate');
+     var stime = $(this).attr('stime');
+     var seats = $(this).attr('seats');
+     $('#timelist').html(
+     );
+     console.log(datas);
+ });
+ //
+ // $(document).on('click','#formBtn', function(){
+ // });
+
+ jQuery(document).ready(function($) {
+         var form = $('#myform');
+         form.submit(function(e){
+             e.preventDefault();
+             var email = $("#email").val();
+             var cardnum = $("#cardnum").val();
+             var startdate = $("#startdate").val();
+             var expdate = $("#expdate").val();
+             var userseat = seats;
+             sendseats = generate_booked();
+             var total = sel_seats;
+             var screening_id = '';
+
+             var token = $("input[name~='csrfmiddlewaretoken']").first().val();
+             $.ajax({
+                 type: 'POST',
+                 url: '/payment/pay/',
+                 data: {
+                     'screening_id': scrpk,
+                     'csrfmiddlewaretoken': token,
+                     'email': email,
+                     'cardnum': cardnum,
+                     'startdate': startdate,
+                     'expdate': expdate,
+                     'seats': JSON.stringify(sendseats),
+                     'userseats': JSON.stringify(userseat),
+                     'total_seats': total,
+
+                 },
+                 dataType: "json",
+                 success: function(resultData) {
+                     console.log('****resultData: ', resultData);
+                 }
+             });
+             $('#closemodal').click();
+             $('body').removeClass('modal-open');
+             location.reload();
+         });
+ });
+ </script>

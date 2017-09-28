@@ -65,31 +65,50 @@
         });
 
          document.getElementById('prevBtn').click();
-{#        $(".lSAction>a").on("click", function(){#}
-{#            $(".schedule").html("");#}
-{#        });#}
+// {#        $(".lSAction>a").on("click", function(){#}
+// {#            $(".schedule").html("");#}
+// {#        });#}
         $(".footer>button").on("click", function(){
-            console.log(this.id);
-{#            if(clicked.html()  == "Order" ){#}
-{#                clicked.html("Close");#}
-{#                $(".schedule").addClass("in");#}
-{#                 $.ajax({#}
-{#                    url: "/screening/movie/" + this.id,#}
-{#                    type: "GET",#}
-{#                    dataType: "json",#}
-{#                }).done(function (data) {#}
-{#                    var timetable = $(".schedule");#}
-{#                    timetable.html("");#}
-{#                    $.each(data, function (index, value) {#}
-{#                        var html = '<div><a href="#order">'+value.fields.stime+'</a></div>';#}
-{#                        timetable.append(html);#}
-{#                    });#}
-{#                 });#}
-{#            }#}
-{#            else {#}
-{#                 clicked.html("Order");#}
-{#                 $(".schedule").removeClass("in");#}
-{#            }#}
+
+            var movieID = this.id;
+            $("#orderrow").removeClass("hidden");
+            $.ajax({
+                type: "GET",
+                dataType : 'json',
+                url: '/screening/movie/'+movieID+'/',
+                success: function (data){
+                    var html = '<select id="screentimes" class="form-control">';
+
+                    html += '<option value="">select time</option>';
+                    for (var x = 0; x < data.length; x++) {
+                        html += '<option value="' + data[x].pk + '">' + data[x].fields.stime + '</option>';
+                    }
+                    html += '</select>';
+                    $('#movielist').html(html);
+                },
+                failure: function() {alert("Error!");}
+            });
+
+// {#            if(clicked.html()  == "Order" ){#}
+// {#                clicked.html("Close");#}
+// {#                $(".schedule").addClass("in");#}
+// {#                 $.ajax({#}
+// {#                    url: "/screening/movie/" + this.id,#}
+// {#                    type: "GET",#}
+// {#                    dataType: "json",#}
+// {#                }).done(function (data) {#}
+// {#                    var timetable = $(".schedule");#}
+// {#                    timetable.html("");#}
+// {#                    $.each(data, function (index, value) {#}
+// {#                        var html = '<div><a href="#order">'+value.fields.stime+'</a></div>';#}
+// {#                        timetable.append(html);#}
+// {#                    });#}
+// {#                 });#}
+// {#            }#}
+// {#            else {#}
+// {#                 clicked.html("Order");#}
+// {#                 $(".schedule").removeClass("in");#}
+// {#            }#}
         });
     });
 
